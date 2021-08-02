@@ -1,0 +1,51 @@
+---
+title: "clustering_analysis"
+author: "Eliot Min"
+date: "8/2/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggfortify)
+```
+
+```{r}
+
+mydata <- read.csv("Mall_customers.csv") %>% 
+  select(c(3, 4))
+View(mydata)
+
+```
+
+```{r}
+
+wssplot <- function(data, nc=15, seed=1234){
+                  wss <- (nrow(data)-1)*sum(apply(data,2,var))
+                      for (i in 2:nc){
+                set.seed(seed)
+                    wss[i] <- sum(kmeans(data, centers=i)$withinss)}
+              plot(1:nc, wss, type="b", xlab="Number of Clusters",
+                            ylab="Within groups sum of squares")
+              wss
+       }
+
+wssplot(mydata)
+
+```
+
+```{r}
+
+KM = kmeans(mydata, 2)
+autoplot(KM, mydata, frame = TRUE) + theme_classic()
+  
+```
+
+
+```{r}
+
+KM$centers
+
+```
+
